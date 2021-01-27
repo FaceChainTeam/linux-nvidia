@@ -1,7 +1,7 @@
 /*
  * tegra_dc_ext.h: tegra dc ext interface.
  *
- * Copyright (C) 2011-2019, NVIDIA Corporation. All rights reserved.
+ * Copyright (C) 2011-2020, NVIDIA Corporation. All rights reserved.
  *
  * Author: Robert Morell <rmorell@nvidia.com>
  * Some code based on fbdev extensions written by:
@@ -347,6 +347,16 @@ struct tegra_dc_ext_hdr {
 } __attribute__((__packed__));
 
 /*
+ * Client data used by tegra_dc to force overscan/underscan
+ */
+enum tegra_dc_ext_avi_scan {
+	TEGRA_DC_EXT_AVI_SCAN_DEFAULT,
+	TEGRA_DC_EXT_AVI_SCAN_NO_DATA,
+	TEGRA_DC_EXT_AVI_SCAN_OVERSCAN,
+	TEGRA_DC_EXT_AVI_SCAN_UNDERSCAN,
+} __attribute__((__packed__));
+
+/*
  * Client data used by tegra_dc to force colorimetry
  */
 enum tegra_dc_ext_avi_colorimetry {
@@ -355,6 +365,7 @@ enum tegra_dc_ext_avi_colorimetry {
 	TEGRA_DC_EXT_AVI_COLORIMETRY_BT2020_YCC_RGB,
 	TEGRA_DC_EXT_AVI_COLORIMETRY_SMPTE170M_ITU601,
 	TEGRA_DC_EXT_AVI_COLORIMETRY_ITU709,
+	TEGRA_DC_EXT_AVI_COLORIMETRY_NO_DATA,
 } __attribute__((__packed__));
 
 /*
@@ -368,17 +379,34 @@ enum tegra_dc_ext_avi_color_components_change {
 	TEGRA_DC_EXT_AVI_COLOR_COMPONENTS_YUV420,
 } __attribute__((__packed__));
 
+/*
+ * Client data used by tegra_dc to force color quantization range
+ */
 enum tegra_dc_ext_avi_color_quant_change {
 	TEGRA_DC_EXT_AVI_COLOR_QUANT_DEFAULT,
 	TEGRA_DC_EXT_AVI_COLOR_QUANT_LIMITED,
 	TEGRA_DC_EXT_AVI_COLOR_QUANT_FULL,
 } __attribute__((__packed__));
 
+/*
+ * Client data used by tegra_dc to force IT content type
+ */
+enum tegra_dc_ext_avi_it_content {
+	TEGRA_DC_EXT_AVI_IT_CONTENT_DEFAULT,
+	TEGRA_DC_EXT_AVI_IT_CONTENT_FALSE,
+	TEGRA_DC_EXT_AVI_IT_CONTENT_GRAPHICS,
+	TEGRA_DC_EXT_AVI_IT_CONTENT_PHOTO,
+	TEGRA_DC_EXT_AVI_IT_CONTENT_CINEMA,
+	TEGRA_DC_EXT_AVI_IT_CONTENT_GAME,
+} __attribute__((__packed__));
+
 struct tegra_dc_ext_avi {
 	__u8 avi_colorimetry;
 	__u8 avi_color_components;
 	__u8 avi_color_quant;
-	__u8 reserved[23];
+	__u8 avi_it_content;
+	__u8 avi_scan;
+	__u8 reserved[21];
 };
 
 /*
